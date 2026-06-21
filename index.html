@@ -11,7 +11,7 @@
   <meta name="author" content="Özgür Güler">
   <meta name="robots" content="index, follow">
   
-  <!-- Canonical URL (Kendi domaininize aldığınızda adresi buraya yazın) -->
+  <!-- Canonical URL -->
   <link rel="canonical" href="https://neyiyorum.ozgurguler.tech">
 
   <!-- Open Graph (Sosyal Medya Paylaşım Görünümü) -->
@@ -26,7 +26,7 @@
   <meta name="twitter:title" content="What Am I Eating? | Food Product Analyzer">
   <meta name="twitter:description" content="Transparently learn additives and food processing levels in seconds.">
 
-  <!-- Schema.org JSON-LD (Search motorlarına bu sitenin ne olduğunu anlatır) -->
+  <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -119,7 +119,7 @@
   <!-- Header -->
   <header class="pt-12 pb-8 px-4 flex flex-col items-center text-center">
     <div class="mb-6">
-      <img src="/logo.png" alt="What Am I Eating Logo" class="w-24 h-24 md:w-28 md:h-28 object-contain mx-auto rounded-3xl" />
+      <img src="/logo.png" alt="What Am I Eating Logo" class="w-24 h-24 md:w-28 md:h-28 object-contain mx-auto rounded-3xl" onerror="this.style.display='none'" />
     </div>
     <h1 class="text-3xl md:text-5xl font-semibold tracking-tight text-white mb-4">
       What Am I Eating?
@@ -163,16 +163,14 @@
       </div>
       <input type="file" id="barcode-file" accept="image/*" capture="environment" class="hidden">
     </form>
-    <div id="suggestions" class="hidden max-w-2xl mx-auto -mt-8 mb-8 glass-panel rounded-2xl p-2"></div>
+    <div id="suggestions" class="hidden max-w-2xl mx-auto -mt-8 mb-8 glass-panel rounded-2xl p-2 z-10 relative"></div>
 
     <!-- Error Message Container -->
     <section id="error-container" class="hidden max-w-2xl mx-auto bg-rose-500/10 border border-rose-500/20 rounded-2xl p-6 flex items-start gap-4 animate-slide-up mb-8" aria-live="polite">
       <i data-lucide="alert-circle" class="text-rose-400 w-6 h-6 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
       <div>
         <h3 id="error-title" class="font-medium text-rose-200 text-lg mb-1">Error</h3>
-        <p id="error-desc" clas
-```html
-text-rose-300/70 text-sm leading-relaxed"></p>
+        <p id="error-desc" class="text-rose-300/70 text-sm leading-relaxed"></p>
       </div>
     </section>
 
@@ -190,7 +188,7 @@ text-rose-300/70 text-sm leading-relaxed"></p>
     </section>
 
     <!-- Single Product Detail -->
-    <article id="product-detail-container" class="hidden animate-zoom-in max-w-4xl mx-auto animate-slide-up" aria-label="Product Details">
+    <article id="product-detail-container" class="hidden max-w-4xl mx-auto animate-slide-up" aria-label="Product Details">
       <button 
         id="back-btn"
         aria-label="Go back to search results"
@@ -313,24 +311,25 @@ text-rose-300/70 text-sm leading-relaxed"></p>
     const detailContainer = document.getElementById('product-detail-container');
     const backBtn = document.getElementById('back-btn');
     const suggestions = document.getElementById('suggestions');
-    const recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
     let warmupController = null;
 
     // --- Initialize Icons ---
     lucide.createIcons();
 
+    // Normalization logic defined globally
+    const normalize = s => (s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g').replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ş]/g,'s').replace(/[ü]/g,'u').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+
     input.addEventListener('input', () => {
       const q = input.value.toLowerCase().trim();
       if (!q) {
-        suggestions.innerHTML = recentSearches.slice(-5).r
-```
-everse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded">${s}</button>`).join('');
-        suggestions.classList.toggle('hidden', recentSearches.length===0);
+        suggestions.innerHTML = recentSearches.slice(-5).reverse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded text-sm text-zinc-300">${s}</button>`).join('');
+        suggestions.classList.toggle('hidden', recentSearches.length === 0);
         return;
       }
       const matches = recentSearches.filter(x => x.toLowerCase().includes(q)).slice().reverse().slice(0,5);
-      suggestions.innerHTML=matches.map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded">${s}</button>`).join('');
-      suggestions.classList.toggle('hidden',matches.length===0);
+      suggestions.innerHTML = matches.map(s=>`<button type="button" class="block w-full text-left p-2 hover:bg-white/10 rounded text-sm text-zinc-300">${s}</button>`).join('');
+      suggestions.classList.toggle('hidden', matches.length === 0);
 
       if (q.length >= 3) {
         try {
@@ -343,8 +342,12 @@ everse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:b
       }
     });
 
-    suggestions.addEventListener('click',e=>{
-      if(e.target.tagName==='BUTTON'){input.value=e.target.textContent;suggestions.classList.add('hidden');form.requestSubmit();}
+    suggestions.addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        input.value = e.target.textContent;
+        suggestions.classList.add('hidden');
+        form.requestSubmit();
+      }
     });
 
     // --- Generate Skeleton HTML ---
@@ -356,11 +359,11 @@ everse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:b
       </div>
     `).join('');
 
-    // --- UI State Managers (Fixed Skeleton Display Bug) ---
+    // --- UI State Managers ---
     function setIdleState() {
       errorContainer.classList.add('hidden');
       
-      // Hide skeleton with Tailwind logic (remove grid class, add hidden)
+      // Hide skeleton with Tailwind logic
       loadingSkeleton.classList.add('hidden');
       loadingSkeleton.classList.remove('grid', 'grid-cols-1', 'sm:grid-cols-2', 'md:grid-cols-3', 'lg:grid-cols-4');
       
@@ -433,7 +436,7 @@ everse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:b
       globalProductsList = products;
       isShowingList = true;
       
-      resultsCount.textContent = `Matching ${products.length} Result found`;
+      resultsCount.textContent = `Matching ${products.length} Results found`;
       resultsGrid.innerHTML = products.map(item => {
         const imgUrl = item.image_front_url || item.image_url || '';
         const name = item.product_name || 'Unnamed Product';
@@ -451,14 +454,15 @@ everse().map(s=>`<button type="button" class="block w-full text-left p-2 hover:b
           <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">DATA: ${quality}</span>`;
 
         return `
-          <bu`
-tton onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product in detail" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
+          <button onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product in detail" class="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col items-start text-left hover:bg-white/10 hover:border-white/20 transition-all group w-full">
             <div class="h-32 w-full bg-black/20 rounded-xl mb-4 overflow-hidden p-2 flex items-center justify-center relative">
               ${imgHtml}
             </div>
             <h3 class="font-medium text-zinc-100 line-clamp-2 w-full leading-snug mb-1">${name}</h3>
             <p class="text-xs text-zinc-500 w-full truncate mb-3">${brand}</p>
-            ${badgeHtml}
+            <div class="flex flex-wrap gap-2 mt-auto w-full">
+              ${badgeHtml}
+            </div>
           </button>
         `;
       }).join('');
@@ -482,7 +486,7 @@ tton onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product 
         backBtn.classList.add('hidden');
       }
 
-      // Üst Bilgiler
+      // Upper Info
       const imgUrl = product.image_front_url || product.image_url;
       document.getElementById('detail-image-container').innerHTML = imgUrl 
         ? `<img src="${imgUrl}" alt="${product.product_name} package image" class="max-h-[300px] w-auto object-contain drop-shadow-2xl animate-fade-in" />`
@@ -492,7 +496,7 @@ tton onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product 
       document.getElementById('detail-name').textContent = product.product_name || 'Unnamed Product';
       document.getElementById('detail-barcode').textContent = `CODE: ${product._id}`;
 
-      // Skorlar
+      // Scores
       const ns = getNutriScoreDetails(product.nutriscore_grade);
       document.getElementById('detail-nutriscore').innerHTML = `
         <div class="w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-3xl border ${ns.style}" aria-label="Nutri-Score Grade: ${ns.letter}">
@@ -544,7 +548,18 @@ tton onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product 
       }
 
       const nutriments = product.nutriments || {};
-            document.getElementById('detail-nutrition-summary').innerHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"><div class="p-3 rounded-xl bg-black/20">Sugar<br><b>${nutriments.sugars_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Protein<br><b>${nutriments.proteins_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Fiber<br><b>${nutriments.fiber_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Salt<br><b>${nutriments.salt_100g ?? '?'} g</b></div></div><div class='mt-3 text-sm text-zinc-300'>Allergens: ${(product.allergens_tags||[]).length ? product.allergens_tags.map(x=>x.split(':').pop()).join(', ') : 'Not specified'}<br>Eco-Score: ${(product.ecoscore_grade||'?').toUpperCase()}</div>`;
+      document.getElementById('detail-nutrition-summary').innerHTML = `
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+          <div class="p-3 rounded-xl bg-black/20">Sugar<br><b>${nutriments.sugars_100g ?? '?'} g</b></div>
+          <div class="p-3 rounded-xl bg-black/20">Protein<br><b>${nutriments.proteins_100g ?? '?'} g</b></div>
+          <div class="p-3 rounded-xl bg-black/20">Fiber<br><b>${nutriments.fiber_100g ?? '?'} g</b></div>
+          <div class="p-3 rounded-xl bg-black/20">Salt<br><b>${nutriments.salt_100g ?? '?'} g</b></div>
+        </div>
+        <div class='mt-3 text-sm text-zinc-300'>
+          Allergens: ${(product.allergens_tags||[]).length ? product.allergens_tags.map(x=>x.split(':').pop()).join(', ') : 'Not specified'}<br>
+          Eco-Score: ${(product.ecoscore_grade||'?').toUpperCase()}
+        </div>`;
+
       const summaryContainer = document.getElementById('detail-summary');
       const additiveCount = product.additives_tags?.length || 0;
       const dataCompleteness = [
@@ -555,33 +570,38 @@ tton onclick="selectProduct('${item._id}')" aria-label="Examine ${name} product 
         product.nutriments && Object.keys(product.nutriments).length > 5
       ].filter(Boolean).length;
 
-      let completenessLabel='Low';
-      if (dataCompleteness>=4) completenessLabel='High';
-      else if (dataCompleteness>=2) completenessLabel='Medium';
-      const grade=(product.nutriscore_grade||'').toLowerCase();
-      let risk='🟢';
-      if ((product.nova_group||0)>=4 || ['d','e'].includes(grade)) risk='🔴';
-      else if ((product.nova_group||0)>=3 || ['b','c'].includes(grade)) risk='🟡';
-      let summary=[];
+      let completenessLabel = 'Low';
+      if (dataCompleteness >= 4) completenessLabel = 'High';
+      else if (dataCompleteness >= 2) completenessLabel = 'Medium';
+      const grade = (product.nutriscore_grade||'').toLowerCase();
+      let risk = '🟢';
+      if ((product.nova_group||0) >= 4 || ['d','e'].includes(grade)) risk = '🔴';
+      else if ((product.nova_group||0) >= 3 || ['b','c'].includes(grade)) risk = '🟡';
+      
+      let summary = [];
       if ((product.nova_group||0) >= 4) summary.push('Highly processed product (NOVA 4).');
       if (['d','e'].includes(grade)) summary.push('Low Nutri-Score suggests lower nutritional quality.');
       if (additiveCount > 0) summary.push(`This product contains ${additiveCount} additives.`);
-      const tags=(product.additives_tags||[]).join(' ');
-      if(tags.includes('e950')) summary.push('Contains E950 (Acesulfame-K) artificial sweetener.');
-      if(tags.includes('e951')) summary.push('Contains E951 (Aspartame).');
-      if(tags.includes('e150')) summary.push('Contains caramel coloring.');
-      if ((nutriments.
-sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
+      const tags = (product.additives_tags||[]).join(' ');
+      if (tags.includes('e950')) summary.push('Contains E950 (Acesulfame-K) artificial sweetener.');
+      if (tags.includes('e951')) summary.push('Contains E951 (Aspartame).');
+      if (tags.includes('e150')) summary.push('Contains caramel coloring.');
+      if ((nutriments.sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
       if ((nutriments.salt_100g||0) > 1.5) summary.push('Salt content seems high.');
       if ((nutriments.fiber_100g||0) >= 6) summary.push('Fiber content is at a good level.');
       if ((nutriments.proteins_100g||0) >= 10) summary.push('Notable protein content.');
-      if(summary.length===0) summary.push('No major warning signs were detected in the available data.');
+      if (summary.length === 0) summary.push('No major warning signs were detected in the available data.');
       if (dataCompleteness <= 1) {
-        risk='⚪';
+        risk = '⚪';
         summary.unshift('There is not enough data to make a reliable assessment of this product.');
       }
-      summary.push(risk==='🔴' ? 'Less processed alternatives may be preferable.' : 'No major warning for occasional consumption.');
-      summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Overall Assessment ${risk}</div><div class="mb-2 text-xs text-zinc-400">Data Quality: ${completenessLabel}</div>${summary.join(' ')}</div>`;
+      summary.push(risk === '🔴' ? 'Less processed alternatives may be preferable.' : 'No major warning for occasional consumption.');
+      summaryContainer.innerHTML = `
+        <div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed">
+          <div class="font-semibold mb-2">Overall Assessment ${risk}</div>
+          <div class="mb-2 text-xs text-zinc-400">Data Quality: ${completenessLabel}</div>
+          ${summary.join(' ')}
+        </div>`;
 
       // Ingredients
       const ingredientsContainer = document.getElementById('detail-ingredients');
@@ -600,11 +620,12 @@ sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
       e.preventDefault();
       const query = input.value.trim();
       if (!query) return;
-      const normalize = s => (s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g').replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ş]/g,'s').replace(/[ü]/g,'u').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
       const normalizedQuery = normalize(query);
       const apiQuery = normalizedQuery;
 
-      localStorage.setItem('recentSearches', JSON.stringify([...new Set([...recentSearches, query])].slice(-20)));
+      recentSearches = [...new Set([...recentSearches, query])].slice(-20);
+      localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+      
       setLoadingState();
       isShowingList = false;
       globalProductsList = [];
@@ -613,7 +634,7 @@ sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
 
       try {
         if (isBarcode) {
-          // Barcode Search (v0 API returns 200 instead of 404, preventing CORS "Failed to fetch" errors)
+          // Barcode Search
           const res = await fetch(`https://world.openfoodfacts.org/api/v0/product/${query}.json`, {
             method: 'GET',
             headers: {
@@ -657,16 +678,15 @@ sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
             const fallbackUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=*&search_simple=0&action=process&json=1&page_size=100`;
             const fallbackRes = await fetch(fallbackUrl);
             const fallbackData = await fallbackRes.json();
-            const q = query.toLocaleLowerCase('tr');
             products = (fallbackData.products || []).filter(p => {
               const name = normalize(p.product_name || p.product_name_tr || '');
-              const words = normalizedQuery.split(' ').filter(w=>w.length>1);
-              const score = words.filter(w=>name.includes(w)).length;
-              return score >= Math.max(1, Math.ceil(words.length/2));
+              const words = normalizedQuery.split(' ').filter(w => w.length > 1);
+              const score = words.filter(w => name.includes(w)).length;
+              return score >= Math.max(1, Math.ceil(words.length / 2));
             });
 
             if (products.length === 0) {
-              const words = normalizedQuery.split(' ').filter(w=>w.length>2);
+              const words = normalizedQuery.split(' ').filter(w => w.length > 2);
               for (const word of words) {
                 const wordResults = (fallbackData.products || []).filter(p => {
                   const name = normalize(p.product_name || p.product_name_tr || '');
@@ -679,7 +699,6 @@ sugars_100g||0) > 15) summary.push('Sugar amount seems high.');
           }
 
           if (products.length > 0) {
-const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g').replace(/[ı]/g,'i').replace(/[ö]/g,'o').replace(/[ş]/g,'s').replace(/[ü]/g,'u').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();
             const sortedProducts = products.sort((a, b) => {
               const aTR = a.countries_tags?.includes('en:turkey');
               const bTR = b.countries_tags?.includes('en:turkey');
@@ -710,42 +729,54 @@ const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g
     });
 
   </script>
-<script src="https://unpkg.com/@zxing/library@latest"></script>
-<script>
-const scanBtn=document.getElementById('scan-btn');
-const barcodeFile=document.getElementById('barcode-file');
-if(scanBtn&&barcodeFile){
-scanBtn.onclick=async()=>{
-if('BarcodeDetector' in window){
- try{
-  const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});
-  const video=document.createElement('video');
-  video.srcObject=stream; await video.play();
-  const detector=new BarcodeDetector({formats:['ean_13','ean_8','upc_a','upc_e']});
-  const timer=setInterval(async()=>{
-   const codes=await detector.detect(video);
-   if(codes.length){
-    clearInterval(timer); stream.getTracks().forEach(t=>t.stop());
-    document.getElementById('search-input').value=codes[0].rawValue;
-    document.getElementById('search-form').requestSubmit();
-   }
-  },500);
- }catch(e){barcodeFile.click();}
-}else{barcodeFile.click();}
-};
-barcodeFile.onchange=async(e)=>{
- const file=e.target.files?.[0]; if(!file) return;
- try{
-  const img=new Image();
-  img.src=URL.createObjectURL(file);
-  await img.decode();
-  const reader=new ZXing.BrowserMultiFormatReader();
-  const res=await reader.decodeFromImageElement(img);
-  document.getElementById('search-input').value=res.text;
-  document.getElementById('search-form').requestSubmit();
- }catch(err){alert('Barcode could not be read. Try a clearer photo.');}
-};
-}
-</script>
+
+  <!-- Barcode Scanner Logic -->
+  <script src="https://unpkg.com/@zxing/library@latest"></script>
+  <script>
+    const scanBtn = document.getElementById('scan-btn');
+    const barcodeFile = document.getElementById('barcode-file');
+    if (scanBtn && barcodeFile) {
+      scanBtn.onclick = async () => {
+        if ('BarcodeDetector' in window) {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            const video = document.createElement('video');
+            video.srcObject = stream; 
+            await video.play();
+            const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+            const timer = setInterval(async () => {
+              const codes = await detector.detect(video);
+              if (codes.length) {
+                clearInterval(timer); 
+                stream.getTracks().forEach(t => t.stop());
+                document.getElementById('search-input').value = codes[0].rawValue;
+                document.getElementById('search-form').requestSubmit();
+              }
+            }, 500);
+          } catch (e) {
+            barcodeFile.click();
+          }
+        } else {
+          barcodeFile.click();
+        }
+      };
+
+      barcodeFile.onchange = async (e) => {
+        const file = e.target.files?.[0]; 
+        if (!file) return;
+        try {
+          const img = new Image();
+          img.src = URL.createObjectURL(file);
+          await img.decode();
+          const reader = new ZXing.BrowserMultiFormatReader();
+          const res = await reader.decodeFromImageElement(img);
+          document.getElementById('search-input').value = res.text;
+          document.getElementById('search-form').requestSubmit();
+        } catch (err) {
+          alert('Barcode could not be read. Try a clearer photo.');
+        }
+      };
+    }
+  </script>
 </body>
 </html>
