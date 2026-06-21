@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Temel SEO & Meta Etiketleri -->
-  <title>What Am I Eating? | Market Ürünleri İnceleme Aracı</title>
+  <title>What Am I Eating? | Food Product Analyzer</title>
   <meta name="description" content="Tükettiğiniz ürünlerin adını veya barkodunu aratın. Katkı maddelerini (E-kodları), NOVA işlenmişlik seviyesini ve Nutri-Score besin değerlerini şeffafça inceleyin. Ücretsiz Ne Yiyorum analiz aracınız.">
   <meta name="keywords" content="Nutri-Score hesaplama, NOVA grubu, gıda katkı maddeleri, E-kodları zararları, barkod sorgulama, sağlıklı beslenme, ürün inceleme, gıda dedektifi, gerçek sağlık skoru, barkod okuyucu">
   <meta name="author" content="Özgür Güler">
@@ -23,7 +23,7 @@
   
   <!-- Twitter Kartı -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="What Am I Eating? | Market Ürünleri İnceleme Aracı">
+  <meta name="twitter:title" content="What Am I Eating? | Food Product Analyzer">
   <meta name="twitter:description" content="Katkı maddelerini ve gıda işlenmişlik seviyesini saniyeler içinde şeffafça öğrenin.">
 
   <!-- Schema.org JSON-LD (Arama motorlarına bu sitenin ne olduğunu anlatır) -->
@@ -125,7 +125,7 @@
       What Am I Eating?
     </h1>
     <p class="text-zinc-400 max-w-lg leading-relaxed text-sm md:text-base">
-      Tükettiğiniz ürünlerin adını veya barkodunu aratın. Katkı maddelerini, işlenmişlik seviyesini ve besin değerlerini şeffafça inceleyin.
+      Search products or barcodes and inspect additives, processing level and nutrition data.
     </p>
   </header>
 
@@ -133,7 +133,7 @@
   <main class="flex-1 w-full max-w-5xl mx-auto px-4 pb-20">
     
     <!-- Search Form -->
-    <form id="search-form" class="relative max-w-2xl mx-auto mb-12" aria-label="Ürün Arama Formu">
+    <form id="search-form" class="relative max-w-2xl mx-auto mb-12" aria-label="Product Search Form">
       <div class="relative flex items-center w-full glass-panel rounded-full overflow-hidden transition-all focus-within:border-amber-500/50 focus-within:bg-white/10">
         <div class="pl-6 text-zinc-500" aria-hidden="true">
           <i data-lucide="search" class="w-5 h-5"></i>
@@ -142,9 +142,9 @@
           type="text"
           id="search-input"
           class="w-full py-4 pl-4 pr-4 bg-transparent outline-none text-white placeholder:text-zinc-500 text-base"
-          placeholder="Örn: Fanta, Çikolata veya 8690504..."
+          placeholder="Example: Fanta, Chocolate or 8690504..."
           autocomplete="off"
-          aria-label="Ürün adı veya barkod girin"
+          aria-label="Enter product name or barcode"
         />
         <button
           type="submit"
@@ -180,7 +180,7 @@
     </section>
 
     <!-- Multi-results List -->
-    <section id="results-container" class="hidden animate-slide-up" aria-label="Arama Sonuçları">
+    <section id="results-container" class="hidden animate-slide-up" aria-label="Search Results">
       <h2 id="results-count" class="text-sm font-medium text-zinc-500 mb-6 uppercase tracking-wider"></h2>
       <div id="results-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <!-- Cards injected via JS -->
@@ -188,14 +188,14 @@
     </section>
 
     <!-- Single Product Detail -->
-    <article id="product-detail-container" class="hidden animate-zoom-in max-w-4xl mx-auto animate-slide-up" aria-label="Ürün Detayları">
+    <article id="product-detail-container" class="hidden animate-zoom-in max-w-4xl mx-auto animate-slide-up" aria-label="Product Details">
       <button 
         id="back-btn"
         aria-label="Arama sonuçlarına geri dön"
         class="hidden items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors text-sm font-medium"
       >
         <i data-lucide="arrow-left" class="w-4 h-4"></i>
-        Sonuçlara Dön
+        Back to Results
       </button>
 
       <div class="glass-panel rounded-[2rem] overflow-hidden">
@@ -224,7 +224,7 @@
           </div>
           <div class="p-8">
             <div class="flex items-center gap-2 mb-6">
-              <h3 class="font-medium text-zinc-300 text-sm tracking-wide uppercase">İşlenmişlik (NOVA)</h3>
+              <h3 class="font-medium text-zinc-300 text-sm tracking-wide uppercase">Processing Level (NOVA)</h3>
             </div>
             <div id="detail-nova" class="flex items-center gap-5"></div>
           </div>
@@ -235,7 +235,7 @@
           <div>
             <h3 class="text-lg font-medium text-white flex items-center gap-3 mb-6">
               <i id="additives-icon" data-lucide="alert-circle" class="w-5 h-5"></i>
-              E-Kodları & Katkı Maddeleri
+              E-Numbers & Additives
             </h3>
             <div id="detail-additives"></div>
           </div>
@@ -263,7 +263,7 @@
       class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-400 transition-colors"
       aria-label="Özgür Güler'in kişisel web sitesini ziyaret et"
     >
-      Özgür Güler tarafından yapıldı
+      Özgür Güler Created by
       <i data-lucide="external-link" class="w-3.5 h-3.5" aria-hidden="true"></i>
     </a>
   </footer>
@@ -400,7 +400,7 @@
       switch (g) {
         case 'a': return { letter: 'A', text: 'Besin değeri açısından çok iyi', style: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20' };
         case 'b': return { letter: 'B', text: 'Besin değeri açısından iyi', style: 'text-green-400 bg-green-400/10 border-green-400/20' };
-        case 'c': return { letter: 'C', text: 'Orta seviye besin değeri', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
+        case 'c': return { letter: 'C', text: 'Medium seviye besin değeri', style: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20' };
         case 'd': return { letter: 'D', text: 'Besin değeri düşük, sık tüketim önerilmez', style: 'text-orange-400 bg-orange-400/10 border-orange-400/20' };
         case 'e': return { letter: 'E', text: 'Besin değeri çok düşük, sık tüketim önerilmez', style: 'text-rose-400 bg-rose-400/10 border-rose-400/20' };
         default: return { letter: '?', text: 'Besin değeri skoru hesaplanamamış', style: 'text-zinc-400 bg-zinc-800/50 border-zinc-700' };
@@ -439,7 +439,7 @@
           : `<i data-lucide="package" class="w-10 h-10 text-zinc-700" aria-hidden="true"></i>`;
 
         const completeness=[item.ingredients_text,item.nova_group,item.nutriscore_grade&&item.nutriscore_grade!=='unknown'&&item.nutriscore_grade!=='not-applicable',item.additives_tags?.length,item.nutriments&&Object.keys(item.nutriments).length>5].filter(Boolean).length;
-        const quality=completeness>=4?'Yüksek':(completeness>=2?'Orta':'Düşük');
+        const quality=completeness>=4?'High':(completeness>=2?'Medium':'Low');
         const badgeHtml = `
           ${isTR ? `<span class="text-[10px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 py-1.5 px-3 rounded-lg border border-amber-500/20">TURKEY</span>` : ''}
           <span class="text-[10px] font-bold tracking-widest uppercase bg-cyan-500/10 text-cyan-400 py-1.5 px-3 rounded-lg border border-cyan-500/20">VERİ: ${quality}</span>`;
@@ -537,7 +537,7 @@
       }
 
       const nutriments = product.nutriments || {};
-            document.getElementById('detail-nutrition-summary').innerHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"><div class="p-3 rounded-xl bg-black/20">Şeker<br><b>${nutriments.sugars_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Protein<br><b>${nutriments.proteins_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Lif<br><b>${nutriments.fiber_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Tuz<br><b>${nutriments.salt_100g ?? '?'} g</b></div></div><div class='mt-3 text-sm text-zinc-300'>Alerjenler: ${(product.allergens_tags||[]).length ? product.allergens_tags.map(x=>x.split(':').pop()).join(', ') : 'Belirtilmemiş'}<br>Eco-Score: ${(product.ecoscore_grade||'?').toUpperCase()}</div>`;
+            document.getElementById('detail-nutrition-summary').innerHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"><div class="p-3 rounded-xl bg-black/20">Sugar<br><b>${nutriments.sugars_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Protein<br><b>${nutriments.proteins_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Fiber<br><b>${nutriments.fiber_100g ?? '?'} g</b></div><div class="p-3 rounded-xl bg-black/20">Salt<br><b>${nutriments.salt_100g ?? '?'} g</b></div></div><div class='mt-3 text-sm text-zinc-300'>Allergens: ${(product.allergens_tags||[]).length ? product.allergens_tags.map(x=>x.split(':').pop()).join(', ') : 'Not specified'}<br>Eco-Score: ${(product.ecoscore_grade||'?').toUpperCase()}</div>`;
       const summaryContainer = document.getElementById('detail-summary');
       const additiveCount = product.additives_tags?.length || 0;
       const dataCompleteness = [
@@ -548,24 +548,24 @@
         product.nutriments && Object.keys(product.nutriments).length > 5
       ].filter(Boolean).length;
 
-      let completenessLabel='Düşük';
-      if (dataCompleteness>=4) completenessLabel='Yüksek';
-      else if (dataCompleteness>=2) completenessLabel='Orta';
+      let completenessLabel='Low';
+      if (dataCompleteness>=4) completenessLabel='High';
+      else if (dataCompleteness>=2) completenessLabel='Medium';
       const grade=(product.nutriscore_grade||'').toLowerCase();
       let risk='🟢';
       if ((product.nova_group||0)>=4 || ['d','e'].includes(grade)) risk='🔴';
       else if ((product.nova_group||0)>=3 || ['b','c'].includes(grade)) risk='🟡';
       let summary=[];
-      if ((product.nova_group||0) >= 4) summary.push('Yüksek derecede işlenmiş bir ürün (NOVA 4).');
+      if ((product.nova_group||0) >= 4) summary.push('High derecede işlenmiş bir ürün (NOVA 4).');
       if (['d','e'].includes(grade)) summary.push('Nutri-Score değeri düşük olduğundan beslenme kalitesi zayıf kabul edilir.');
       if (additiveCount > 0) summary.push(`Üründe ${additiveCount} katkı maddesi bulunuyor.`);
       const tags=(product.additives_tags||[]).join(' ');
       if(tags.includes('e950')) summary.push('E950 (Acesulfam-K) yapay tatlandırıcısı içeriyor.');
       if(tags.includes('e951')) summary.push('E951 (Aspartam) içeriyor.');
       if(tags.includes('e150')) summary.push('Karamel renklendirici içeriyor.');
-      if ((nutriments.sugars_100g||0) > 15) summary.push('Şeker miktarı yüksek görünüyor.');
-      if ((nutriments.salt_100g||0) > 1.5) summary.push('Tuz oranı yüksek görünüyor.');
-      if ((nutriments.fiber_100g||0) >= 6) summary.push('Lif içeriği olumlu seviyede.');
+      if ((nutriments.sugars_100g||0) > 15) summary.push('Sugar miktarı yüksek görünüyor.');
+      if ((nutriments.salt_100g||0) > 1.5) summary.push('Salt oranı yüksek görünüyor.');
+      if ((nutriments.fiber_100g||0) >= 6) summary.push('Fiber içeriği olumlu seviyede.');
       if ((nutriments.proteins_100g||0) >= 10) summary.push('Protein miktarı dikkat çekici düzeyde.');
       if(summary.length===0) summary.push('Veriler belirgin bir olumsuz işaret göstermiyor.');
       if (dataCompleteness <= 1) {
@@ -573,14 +573,14 @@
         summary.unshift('Bu ürün hakkında veritabanında çok az bilgi bulunduğu için güvenilir değerlendirme yapmak mümkün değil.');
       }
       summary.push(risk==='🔴' ? 'Daha az işlenmiş alternatifler tercih edilebilir.' : 'Ara sıra tüketim açısından belirgin bir uyarı görünmüyor.');
-      summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Genel Değerlendirme ${risk}</div><div class="mb-2 text-xs text-zinc-400">Data Quality: ${completenessLabel}</div>${summary.join(' ')}</div>`;
+      summaryContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 text-sm text-zinc-200 leading-relaxed"><div class="font-semibold mb-2">Overall Assessment ${risk}</div><div class="mb-2 text-xs text-zinc-400">Data Quality: ${completenessLabel}</div>${summary.join(' ')}</div>`;
 
-      // İçindekiler
+      // Ingredients
       const ingredientsContainer = document.getElementById('detail-ingredients');
       if (product.ingredients_text) {
         ingredientsContainer.innerHTML = `<p class="text-zinc-400 leading-relaxed text-sm bg-black/20 p-6 rounded-2xl border border-white/5">${product.ingredients_text}</p>`;
       } else {
-        ingredientsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm">İçindekiler bilgisi henüz sisteme girilmemiş.</p>`;
+        ingredientsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm">Ingredients bilgisi henüz sisteme girilmemiş.</p>`;
       }
 
       detailContainer.classList.remove('hidden');
