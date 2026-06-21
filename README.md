@@ -18,6 +18,8 @@ Analyze packaged foods by barcode or product name and instantly review:
 ## Live Demo
 
 - Turkish: https://neyiyorum.ozgurguler.tech
+- English: https://30e05cc7.what-am-i-eating.pages.dev
+- English: https://30e05cc7.what-am-i-eating.pages.dev
 
 ## Why?
 
