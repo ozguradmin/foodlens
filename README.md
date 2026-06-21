@@ -1,58 +1,46 @@
-# What Am I Eating?
+# What Am I Eating? (English Edition)
 
-What Am I Eating? is an open-source food product analysis tool powered by OpenFoodFacts data.
+What Am I Eating? is an English-first food product analysis application powered by Open Food Facts data.
 
-This repository is being maintained as an English-first version. The existing Turkish production deployment is intentionally left untouched.
+This repository is maintained as a separate English version. The Turkish live deployment must remain untouched.
 
 ## Features
 
-- Search products by name
-- Search products by barcode
-- Camera-based barcode scanning
-- Nutrition summaries
-- Nutri-Score explanations
-- NOVA processing-level analysis
-- Eco-Score visibility
+- Product name search
+- Barcode lookup
+- Camera barcode scanning
+- Nutri-Score analysis
+- NOVA processing insights
 - Ingredient review
-- Food additive (E-number) analysis
+- E-number additive explanations
 - Data quality indicators
 
-## Demo Deployment Target
+## English Demo Deployment
 
-Recommended English demo target:
+Recommended target: Cloudflare Pages.
 
-- GitHub Pages
-- Cloudflare Pages
-- Netlify
-- Vercel
-
-A separate English deployment should be used instead of the Turkish production site.
+1. Connect this GitHub repository.
+2. Deploy the repository root as a static site.
+3. Use a separate Pages project for the English version.
+4. Do not reuse or modify the Turkish production deployment.
 
 ## Data Source
 
-OpenFoodFacts
-
-https://world.openfoodfacts.org
+Open Food Facts: https://world.openfoodfacts.org
 
 ## Technology
 
 - HTML
 - Vanilla JavaScript
 - Tailwind CSS
-- OpenFoodFacts API
+- Open Food Facts API
 - ZXing
-- BarcodeDetector API
-
-## Local Development
-
-Clone the repository and open `index.html` in a browser, or deploy the static files to any static hosting provider.
 
 ## Roadmap
 
-- Complete translation of remaining Turkish user-facing strings
-- Improve accessibility text and metadata
-- Add dedicated English deployment configuration
-- Expand nutrition explanations
+- Continue translating remaining user-facing Turkish strings.
+- Improve accessibility and metadata.
+- Expand nutrition guidance.
 
 ## License
 
