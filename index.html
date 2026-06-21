@@ -713,8 +713,7 @@ const normalize=s=>(s||'').toLowerCase().replace(/[ç]/g,'c').replace(/[ğ]/g,'g
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 <script>
 const scanBtn=document.getElementById('scan-btn');
-const barcodeFile=document.get_
-ElementById('barcode-file');
+const barcodeFile=document.getElementById('barcode-file');
 if(scanBtn&&barcodeFile){
 scanBtn.onclick=async()=>{
 if('BarcodeDetector' in window){
