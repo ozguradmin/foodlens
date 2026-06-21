@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Temel SEO & Meta Etiketleri -->
+  <!-- SEO & Meta Tags -->
   <title>What Am I Eating? | Food Product Analyzer</title>
-  <meta name="description" content="Tükettiğiniz productlerin adını veya barkodunu aratın. Additive maddelerini (E-kodları), NOVA işlenmişlik seviyesini ve Nutri-Score besin değerlerini şeffafça inceleyin. Ücretsiz Ne Yiyorum analiz aracınız.">
+  <meta name="description" content="Search food products by name or barcode. Review additives, NOVA processing levels, and Nutri-Score nutrition ratings.">
   <meta name="keywords" content="Nutri-Score hesaplama, NOVA grubu, gıda katkı maddeleri, E-kodları zararları, barkod sorgulama, sağlıklı beslenme, product inceleme, gıda dedektifi, gerçek sağlık skoru, barkod okuyucu">
   <meta name="author" content="Özgür Güler">
   <meta name="robots" content="index, follow">
@@ -17,14 +17,14 @@
   <!-- Open Graph (Sosyal Medya Paylaşım Görünümü) -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="What Am I Eating?">
-  <meta property="og:title" content="What Am I Eating? | Barkod ve Product İnceleme">
-  <meta property="og:description" content="Market productlerinin barkodunu veya adını aratarak katkı maddelerini, Nutri-Score ve NOVA seviyesini anında öğrenin.">
+  <meta property="og:title" content="What Am I Eating? | Food Product Analysis">
+  <meta property="og:description" content="Search by barcode or product name to instantly review additives, Nutri-Score, and NOVA processing levels.">
   <meta property="og:url" content="https://ozgurguler.tech">
   
   <!-- Twitter Kartı -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="What Am I Eating? | Food Product Analyzer">
-  <meta name="twitter:description" content="Additive maddelerini ve gıda işlenmişlik seviyesini saniyeler içinde şeffafça öğrenin.">
+  <meta name="twitter:description" content="Understand additives and food processing levels in seconds.">
 
   <!-- Schema.org JSON-LD (Search motorlarına bu sitenin ne olduğunu anlatır) -->
   <script type="application/ld+json">
@@ -32,8 +32,8 @@
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "What Am I Eating?",
-    "alternateName": "Gıda Barkod Searchma",
-    "description": "Tüketiciler için market productlerinin besin değerlerini, katkı maddelerini ve işlenmişlik seviyesini (NOVA & Nutri-Score) analiz eden ücretsiz ve açık kaynak verili web aracı.",
+    "alternateName": "Food Barcode Search",
+    "description": "Free and open-source web app that analyzes nutrition data, additives, and processing levels (NOVA & Nutri-Score).",
     "applicationCategory": "HealthApplication",
     "operatingSystem": "All",
     "offers": {
@@ -169,7 +169,7 @@
     <section id="error-container" class="hidden max-w-2xl mx-auto bg-rose-500/10 border border-rose-500/20 rounded-2xl p-6 flex items-start gap-4 animate-slide-up mb-8" aria-live="polite">
       <i data-lucide="alert-circle" class="text-rose-400 w-6 h-6 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
       <div>
-        <h3 id="error-title" class="font-medium text-rose-200 text-lg mb-1">Hata</h3>
+        <h3 id="error-title" class="font-medium text-rose-200 text-lg mb-1">Error</h3>
         <p id="error-desc" class="text-rose-300/70 text-sm leading-relaxed"></p>
       </div>
     </section>
@@ -191,7 +191,7 @@
     <article id="product-detail-container" class="hidden animate-zoom-in max-w-4xl mx-auto animate-slide-up" aria-label="Product Details">
       <button 
         id="back-btn"
-        aria-label="Search sonuçlarına geri dön"
+        aria-label="Back to search results"
         class="hidden items-center gap-2 text-zinc-400 hover:text-white mb-8 transition-colors text-sm font-medium"
       >
         <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -241,7 +241,7 @@
           </div>
 
           <div>
-            <h3 class="text-lg font-medium text-white mb-4">What Am I Eating? Yorumu</h3>
+            <h3 class="text-lg font-medium text-white mb-4">What Am I Eating? Analysis</h3>
             <div id="detail-summary" class="mb-6"></div>
             <h3 class="text-lg font-medium text-white mb-4">Nutrition Summary</h3>
             <div id="detail-nutrition-summary" class="mb-8"></div>
